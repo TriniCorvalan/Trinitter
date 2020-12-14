@@ -1,0 +1,15 @@
+<h1 class="mb-5">My Profile</h1>
+
+<h3 class="mb-3">
+  <strong>Usernme:</strong>
+  <%= @user %>
+</h3>
+
+<h3 class="mb-3">
+  <strong>Email:</strong>
+  <%= @user.email %>
+</h3>
+
+<%= link_to 'My tweets', home_tweets_path, class: "btn btn-info mr-3" %>
+<%= link_to 'Back', root_path, class: "btn btn-dark" %>
+
