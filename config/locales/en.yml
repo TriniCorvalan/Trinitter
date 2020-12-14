@@ -31,3 +31,9 @@
 
 en:
   hello: "Hello world"
+  views:
+    pagination:
+      first: 'First'
+      previous: 'mostrar más tweets'
+      next: 'mostrar más tweets'
+      last: 'Last'

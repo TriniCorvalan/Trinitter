@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <h1><%= @tweet.content %></h1>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <h4><%= @tweet.user %></h4>
+          <p><%= link_to(image_tag(@tweet.user.photo, class:"rounded")) %></p>
+          <small><%= time_ago_in_words(@tweet.created_at) %> ago</small>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+      
+    <br>
+    <div class="row">
+    <div class="col-md-4"></div> 
+    <div class="col-md-2">
+      <% if user_signed_in? %>
+        <% if @tweet.liked?(current_user) %>
+          <%= link_to "Dislike", dislike_path(@tweet), method: "delete", class: "btn btn-danger btn-sm" %>
+        <% else %>
+          <%= link_to "Like", like_path(@tweet), method: "put", class: "btn btn-danger btn-sm" %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="col-md-2">
+        <p>
+          <%= link_to 'Edit', edit_tweet_path(@tweet), class: "btn btn-dark btn-sm" %> 
+          <%= link_to 'Back', tweets_path, class: "btn btn-info btn-sm" %>
+        </p>
+    </div>
+
+  </div>
+
+</div>
