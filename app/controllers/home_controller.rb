@@ -1,4 +1,9 @@
 class HomeController < ApplicationController
-  def index
+  def profile
+    @user = current_user
+  end
+
+  def tweets
+    @tweets = current_user.tweets
   end
 end

@@ -1,5 +1,5 @@
 class TweetsController < ApplicationController
-  before_action :set_tweet, only: [:like, :dislike, :show, :edit, :update, :destroy]
+  before_action :set_tweet, only: [:like, :dislike, :retweet, :show, :edit, :update, :destroy]
   before_action :authenticate_user!, only: [:new, :edit, :update, :destroy]
 
   def like
@@ -12,12 +12,24 @@ class TweetsController < ApplicationController
     redirect_to tweet_path(@tweet)
   end
 
+  def retweet
+    @retweet = Tweet.create(user_id: current_user.id, tweet_id: @tweet.id, content: @tweet.content)
+
+    respond_to do |format|
+      if @retweet.save
+        format.html { redirect_to @retweet, notice: 'Tweet was successfully created.' }
+      else
+        format.html { render :show }
+      end
+    end
+  end
+
   def index
     @tweets = Tweet.order('created_at DESC').page(params[:page]).per(50)
   end
 
   def show
-   
+    @retweet = Tweet.find_by(id: @tweet.tweet_id)
   end
 
   def new
@@ -68,6 +80,6 @@ class TweetsController < ApplicationController
   end
 
   def tweet_params
-    params.require(:tweet).permit(:content, :user_id)
+    params.require(:tweet).permit(:content, :user_id, :tweet_id)
   end
 end

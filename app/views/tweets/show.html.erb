@@ -9,8 +9,13 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-          <h4><%= @tweet.user %></h4>
-          <p><%= link_to(image_tag(@tweet.user.photo, class:"rounded")) %></p>
+          <h4>Twiteado por <%= @tweet.user %> </h4> <br>
+          <% if @tweet.tweet_id != nil %>
+            <h4>Original de <%= @retweet.user %></h4>       
+          <% end %>
+          <% if @tweet.user.photo != nil %>
+            <p><%= link_to(image_tag(@tweet.user.photo, class:"rounded w-25")) %></p>
+          <% end %>
           <small><%= time_ago_in_words(@tweet.created_at) %> ago</small>
         </div>
         <div class="col-md-2"></div>
@@ -27,11 +32,17 @@
           <%= link_to "Like", like_path(@tweet), method: "put", class: "btn btn-danger btn-sm" %>
         <% end %>
       <% end %>
+
+
+      <% if user_signed_in? %>
+        <%= link_to "RT", retweet_path(@tweet), method: "post", class: "btn btn-info btn-sm" %>
+      <% end %>
+
     </div>
     <div class="col-md-2">
         <p>
           <%= link_to 'Edit', edit_tweet_path(@tweet), class: "btn btn-dark btn-sm" %> 
-          <%= link_to 'Back', tweets_path, class: "btn btn-info btn-sm" %>
+          <%= link_to 'Back', tweets_path, class: "btn btn-light btn-sm" %>
         </p>
     </div>
 
