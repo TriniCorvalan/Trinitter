@@ -13,4 +13,7 @@ class Tweet < ApplicationRecord
     self.likes.count
   end
 
+  def rt_count
+    self.tweets.count
+  end
 end
