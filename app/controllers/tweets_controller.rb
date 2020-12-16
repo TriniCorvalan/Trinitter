@@ -1,6 +1,6 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: [:like, :dislike, :retweet, :show, :edit, :update, :destroy]
-  before_action :authenticate_user!, only: [:new, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:like, :dislike, :retweet, :new, :edit, :update, :destroy]
 
   def like
     Like.create(user_id: current_user.id, tweet_id: @tweet.id)

@@ -18,7 +18,6 @@ end
     tweet = Tweet.create(content: content, user_id: 2)
 end
 
-
 10.times do 
     content = Faker::Lorem.paragraph
     tweet = Tweet.create(content: content, user_id: 6)
