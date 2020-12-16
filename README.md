@@ -6,7 +6,7 @@
 
 ### Índice
 
-+ [Proyecto base](#proyecto-base)
++ [Proyecto base](#inicio)
     + [Crear el proyecto](#inicio)
     + [Agregar Bootstrap](#bootstrap)
     + [Navbar](#navbar)
@@ -22,7 +22,7 @@
 
 ---
 
-### Proyecto base
+### Proyecto base {:#inicio}
 
 #### crear el proyecto
 
@@ -34,7 +34,7 @@ $ rails new nombre_app -d=postgresql
 $ rails db:create
 ```
 
-#### Agregar Bootstrap {#bootstrap}.
+#### Agregar Bootstrap {:#bootstrap}.
 
 Para esto se debe integrar Bootstrap y jQuery en el archivo `Gemfile` en la carpeta raíz del proyecto.
 
@@ -84,7 +84,7 @@ Luego se llama desde `app/views/layouts/application.html.erb` al comienzo del `<
 
 ---
 
-### Historia 1 {#1historia1}
+### Historia 1 {:#1historia1}
 
 - [x] Una visita debe poder registrarse utilizando el link de registro en la barra de navegación.
 - [x] La visita al registrarse debe ingresar nombre usuario, foto de perfil (url), email y password.
@@ -242,24 +242,24 @@ Para esto se usa el helper incluido en devise `user_signed_in?` de esta forma:
 
 ---
 
-### Historia 2 {#1historia2}
+### Historia 2 {:#1historia2}
 
 ---
 
-### Historia 3 {#1historia3}
+### Historia 3 {:#1historia3}
 
 ---
 
-### Historia 4 {#1historia4}
+### Historia 4 {:#1historia4}
 
 ---
 
-### Historia 5 {#1historia5}
+### Historia 5 {:#1historia5}
 
 ---
 
-### Historia 6 {#1historia6}
+### Historia 6 {:#1historia6}
 
 ---
 
-### Historia 7 {#1historia7}
+### Historia 7 {:#1historia7}
