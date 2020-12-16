@@ -6,23 +6,23 @@
 
 ### Índice
 
-+ [Proyecto base](#inicio)
-    + [Crear el proyecto](#inicio)
-    + [Agregar Bootstrap](#bootstrap)
++ [Proyecto base](#proyecto-base)
+    + [Crear el proyecto](#crear-el-proyeto)
+    + [Agregar Bootstrap](#agregar-bootstrap)
     + [Navbar](#navbar)
 
-+ [Hito 1](#1)
-    + [Historia 1](#1historia1) 
-    + [Historia 2](#1historia2)
-    + [Historia 3](#1historia3)
-    + [Historia 4](#1historia4)
-    + [Historia 5](#1historia5)
-    + [Historia 6](#1historia6)
-    + [Historia 7](#1historia7)
++ [Hito 1](#hito-1)
+    + [1. Historia 1](#1-historia-1) 
+    + [1. Historia 2](#1-historia-2)
+    + [1. Historia 3](#1-historia-3)
+    + [1. Historia 4](#1-historia-4)
+    + [1. Historia 5](#1-historia-5)
+    + [1. Historia 6](#1-historia-6)
+    + [1. Historia 7](#1-historia-7)
 
 ---
 
-### Proyecto base {#inicio}
+### Proyecto base
 
 #### crear el proyecto
 
@@ -34,7 +34,7 @@ $ rails new nombre_app -d=postgresql
 $ rails db:create
 ```
 
-#### Agregar Bootstrap {#bootstrap}.
+#### Agregar Bootstrap
 
 Para esto se debe integrar Bootstrap y jQuery en el archivo `Gemfile` en la carpeta raíz del proyecto.
 
@@ -66,7 +66,7 @@ Agregar las dependencias de Bootstrap en `app/assets/javascripts/application.js`
 //= require bootstrap
 ```
 
-#### Navbar {#navbar}
+#### Navbar
 
 Usando los templates de Bootstrap, se crea una vista parcial con el navbar que se guarda en `app/views/shared/_navbar.html.erb` 
 
@@ -84,13 +84,13 @@ Luego se llama desde `app/views/layouts/application.html.erb` al comienzo del `<
 
 ---
 
-### Historia 1 {#1historia1}
+### 1. Historia 1 {#1historia1}
 
-- [x] Una visita debe poder registrarse utilizando el link de registro en la barra de navegación.
-- [x] La visita al registrarse debe ingresar nombre usuario, foto de perfil (url), email y password.
-- [x] El modelo debe llamarse user.
-- [x] Si una visita ya tiene usuario deberá utilizar el link de ingreso y llenará los campos: email y password antes de hacer click en ingresar.
-- [x] Al registrarse o ingresar se le debe redirigir a la página de inicio y mostrar una alerta con el mensaje de "bienvenido".
+- [x] _Una visita debe poder registrarse utilizando el link de registro en la barra de navegación._
+- [x] _La visita al registrarse debe ingresar nombre usuario, foto de perfil (url), email y password._
+- [x] _El modelo debe llamarse user._
+- [x] _Si una visita ya tiene usuario deberá utilizar el link de ingreso y llenará los campos: email y password antes de hacer click en ingresar._
+- [x] _Al registrarse o ingresar se le debe redirigir a la página de inicio y mostrar una alerta con el mensaje de "bienvenido"._
 
 Para lo completar lo anterior se puede usar la gema devise.
 Para poder utilizarla debemos integrar **devise** al archivo `Gemfile`.
@@ -242,24 +242,24 @@ Para esto se usa el helper incluido en devise `user_signed_in?` de esta forma:
 
 ---
 
-### Historia 2 {#1historia2}
+### 1. Historia 2
 
 ---
 
-### Historia 3 {#1historia3}
+### 1. Historia 3
 
 ---
 
-### Historia 4 {#1historia4}
+### 1. Historia 4
 
 ---
 
-### Historia 5 {#1historia5}
+### 1. Historia 5
 
 ---
 
-### Historia 6 {#1historia6}
+### 1. Historia 6
 
 ---
 
-### Historia 7 {#1historia7}
+### 1. Historia 7
