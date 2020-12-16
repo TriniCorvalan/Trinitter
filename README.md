@@ -1,11 +1,11 @@
 # Proyecto Twitter
 
-** [Heroku link] (https://trinitter.herokuapp.com/) **
+**[Heroku link](https://trinitter.herokuapp.com/)**
 
 ## Hito 1
 
 Para comenzar hay que crear el proyecto en rails en el terminal.
-Para poder subirlo a heroku hay que iniciar la base de datos como postgresql.
+Para poder subirlo a heroku hay que iniciar la base de datos como postgresql y luego crearla.
 
 ```console
 $ rails new nombre_app -d=postgresql
@@ -17,11 +17,11 @@ $ rails db:create
 
 ### Historia 1
 
--[x] Una visita debe poder registrarse utilizando el link de registro en la barra de navegación.
--[x] La visita al registrarse debe ingresar nombre usuario, foto de perfil (url), email y password.
--[x] El modelo debe llamarse user.
--[x] Si una visita ya tiene usuario deberá utilizar el link de ingreso y llenará los campos: email y password antes de hacer click en ingresar.
--[x] Al registrarse o ingresar se le debe redirigir a la página de inicio y mostrar una alerta con el mensaje de "bienvenido".
+- [x] Una visita debe poder registrarse utilizando el link de registro en la barra de navegación.
+- [x] La visita al registrarse debe ingresar nombre usuario, foto de perfil (url), email y password.
+- [x] El modelo debe llamarse user.
+- [x] Si una visita ya tiene usuario deberá utilizar el link de ingreso y llenará los campos: email y password antes de hacer click en ingresar.
+- [x] Al registrarse o ingresar se le debe redirigir a la página de inicio y mostrar una alerta con el mensaje de "bienvenido".
 
 Para lo completar lo anterior se puede usar la gema devise.
 Para poder utilizarla debemos integrar **devise** al archivo `Gemfile` en la carpeta raiz del proyecto.
@@ -136,7 +136,7 @@ Editaremos el formulario de registro en `app/views/devise/registrations/new.html
   </div>
 ```
 
-Para configurar el mensaje de bienvenida, hay que editarlo en el archivo `/Users/trini/Desktop/proyecto/1/twitter/config/locales/devise.en.yml``
+Para configurar el mensaje de bienvenida, hay que editarlo en el archivo `/Users/trini/Desktop/proyecto/1/twitter/config/locales/devise.en.yml`
 
 ```yml
 en:
