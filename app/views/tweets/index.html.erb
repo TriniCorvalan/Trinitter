@@ -33,6 +33,9 @@
             <div class="row">
               <div class="col-6 mb-3">
                 <p class="card-text">
+                  
+                  <!-- Boton Like -->
+                  
                   <% if user_signed_in? %>
                     <% if tweet.liked?(current_user) %>
                       <%= link_to "Dislike", dislike_path(tweet), method: "delete", class: "btn btn-danger btn-sm" %>
@@ -41,7 +44,7 @@
                     <% end %>
                   <% end %>
   
-  
+                  <!-- Boton RT -->
                   <% if user_signed_in? %>
                     <%= link_to "RT", retweet_path(tweet), method: "post", class: "btn btn-info btn-sm" %>
                   <% end %>
@@ -53,8 +56,7 @@
               </div>
             </div>
             
-
-
+            <!-- Botones show, edit, destroy -->
 
             <p>
               <%= link_to 'Show', tweet, class: "btn btn-outline-info btn-sm" %> 

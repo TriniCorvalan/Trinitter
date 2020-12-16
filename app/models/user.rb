@@ -8,6 +8,7 @@ class User < ApplicationRecord
   validates :photo, presence: true
 
   has_many :tweets
+  has_many :likes
   
   def to_s
     username

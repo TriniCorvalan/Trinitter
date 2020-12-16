@@ -9,7 +9,7 @@ class TweetsController < ApplicationController
 
   def dislike
     Like.find_by(user_id: current_user.id, tweet_id: @tweet.id).destroy
-    redirect_to tweet_path(@tweet)
+    redirect_to root_path
   end
 
   def retweet
