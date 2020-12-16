@@ -6,7 +6,7 @@
 
 ### Índice
 
-+ [Proyecto base](#inicio)
++ [Proyecto base](#proyecto-base)
     + [Crear el proyecto](#inicio)
     + [Agregar Bootstrap](#bootstrap)
     + [Navbar](#navbar)
@@ -22,7 +22,7 @@
 
 ---
 
-### Proyecto base {#inicio}
+### Proyecto base
 
 #### crear el proyecto
 
