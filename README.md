@@ -561,6 +561,26 @@ put 'tweet/:id/like', to: 'tweets#like', as: 'like'
 delete 'tweet/:id/dislike', to: 'tweets#dislike', as: 'dislike'
 ```
 
+Para evitar que el current_user de like dos veces al mismo tweet, se crea el helper `liked?` en el modelo `app/models/tweet.rb` que busca si hay algun like con user_id igual al del current_user.id .
+
+```ruby
+  def liked?(user)
+    !!self.likes.find{|like| like.user_id == user.id}
+  end
+```
+
+Se debe agregar el boton de like (y dislike) en la vista `app/views/tweets/index.html.erb`. Nuevamente se puede usar el helper `user_signed_in?` y `current_user` para poder agregar usuario al like y el `tweet`correspondiente para entregar el tweet_id, además del helper creado `liked?`.
+
+```ruby
+  <% if user_signed_in? %>
+    <% if tweet.liked?(current_user) %>
+      <%= link_to "Dislike", dislike_path(tweet), method: "delete" %>
+    <% else %>
+      <%= link_to "Like", like_path(tweet), method: "put" %>
+    <% end %>
+  <% end %>
+```
+
 ---
 
 ### 1. Historia 6
