@@ -24,7 +24,7 @@
 
 ### Proyecto base
 
-#### crear el proyecto
+#### Crear el proyecto
 
 Se debe crear el proyecto en rails en el terminal.
 Para poder subirlo a heroku hay que iniciar la base de datos como postgresql y luego crearla.
@@ -159,9 +159,11 @@ Aprovecharemos de generar los controladores para poder modificarlos más adelant
 $ rails generate devise:controllers users
 ```
 
-También generaremos las rutas, agregándolas en `config/routes.rb` y especificando lo que modificaremos.
+También generaremos las rutas, agregándolas en `config/routes.rb` y especificando lo que modificaremos. Y se setea la página de incio (en este caso el `index` de `tweets` que crearemos más adelante)
 
 ```ruby
+  root to: "tweets#index"
+
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations'
@@ -187,7 +189,7 @@ $ rails db:migrate
 Editaremos el formulario de registro en `app/views/devise/registrations/new.html.erb` y `.../edit.html.erb` Agregando:
 
 ```ruby
-<div class="field">
+  <div class="field">
     <%= f.label :username %><br />
     <%= f.text_field :username, autocomplete: "username" %>
   </div>
@@ -300,13 +302,13 @@ class Like < ApplicationRecord
 
   validates :user_id, uniqueness: {scope: :tweet_id}
 end
-
+_____
 
 class Tweet < ApplicationRecord
   ...
   has_many :likes
 end 
-
+_____
 
 class User < ApplicationRecord
   ...
@@ -346,6 +348,13 @@ Se necesita un controlador para el modelo Tweet con al menos el `index`
 $ rails g controller tweets index
 ```
 
+Para crear todas las rutas necesarias de `tweets` (que veremos más adelante), agregamos al archivo `config/routes.rb`
+
+```ruby
+  resources :tweets
+```
+
+
 En el controlador `app/controllers/tweets_controller.rb` se especifica que `@tweets` serán todos los tweets (para así poder llamarlos en la vista)
 
 ```ruby
@@ -353,6 +362,21 @@ class TweetsController < ApplicationController
 
   def index
     @tweets = Tweet.all
+  end
+
+end
+```
+
+Se puede agregar el método privado `set_params` e invocarlo `before_action` en el controlador para poder acceder a los parámetros de los tweets en los métodos que crearemos más adelante
+
+```ruby
+class TweetsController < ApplicationController
+  before_action :set_tweet, except: [:index, :new, :create]
+
+  private
+
+  def set_tweet
+    @tweet = Tweet.find(params[:id])
   end
 
 end
@@ -417,6 +441,96 @@ en:
 - _Al principio de la página debe haber una formulario que nos permita ingresar un nuevo tweet, al crear un tweet el usuario será redirigido a la página de inicio._
 - _El formulario solo debe mostarse a los usuarios y no a las visitas._
 - _Se debe validar que el tweet tenga contenido._
+
+Para crear un nuevo tweet se necesitan los metodos `new` y `create` en el controlador de tweets `app/controllers/tweets_controller.rb`
+
+```ruby
+def new
+  @tweet = Tweet.new
+end
+
+def create
+  @tweet = Tweet.new(tweet_params)
+
+  respond_to do |format|
+    if @tweet.save
+      format.html { redirect_to root_path, notice: 'Tweet was successfully created.' }
+    else
+      format.html { render :new }
+    end
+  end
+end
+```
+
+También es necesario crear el formulario para ingresar el tweet. Este se crea en `app/views/tweets/_form.html.erb`
+En este se pedirá llenar el campo de contenido, mientras que el campo de user será asignado de manera oculta como `current_user`. Además tandrá un detalle de los errores al principio en caso de que los hubiere.
+
+```ruby
+<%= form_with model: @tweet, local: true do |form| %>
+  <% if tweet.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(tweet.errors.count, "error") %> prohibited this tweet from being saved:</h2>
+
+      <ul>
+      <%tweet.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-group">
+    <%= form.label :content %>
+    <%= form.text_area :content, id: :tweet_content %>
+  </div>
+
+  <% if current_user %>
+    <%= form.hidden_field :user_id, value:current_user.id %>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+```
+
+Para usar este formulario, se crea la vista `app/views/tweets/new.html.erb` y se invoca el formulario.
+
+```ruby
+<h1>New Tweet</h1>
+
+<%= render 'form', tweet: @tweet %>
+
+<%= link_to 'Back', tweets_path %>
+```
+
+Para validar que el nuevo tweet tenga contenido, se agrega esta especificación en el modelo `app/models/tweet.rb`
+
+```ruby
+class Tweet < ApplicationRecord
+  ...
+  validates :content, presence: true
+end
+```
+
+Para que el formulario se muestre en la página de inicio, se puede agregar con un `link_to` al `app/views/tweets/index.html.erb`y para que se solo se muestre a los usuarios y no las visitas se puede usar el helper `user_signed_in?` de devise.
+
+```ruby
+  <% if user_signed_in? %>
+    <%= link_to 'New tweet', new_tweet_path %>
+  <% end %>
+```
+
+Además se puede usar `authenticate_user!` en el controlador para que pida a la visita loguearse antes de crear un tweet.
+
+```ruby
+class TweetsController < ApplicationController
+  ...
+  before_action :authenticate_user!, only: [:new]
+  ...
+end
+```
 
 ---
 
