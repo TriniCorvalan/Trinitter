@@ -442,24 +442,34 @@ en:
 - _El formulario solo debe mostarse a los usuarios y no a las visitas._
 - _Se debe validar que el tweet tenga contenido._
 
-Para crear un nuevo tweet se necesitan los metodos `new` y `create` en el controlador de tweets `app/controllers/tweets_controller.rb`
+Para crear un nuevo tweet se necesitan los metodos `new` y `create` en el controlador de tweets `app/controllers/tweets_controller.rb`. Además se puede agregar el metodo privado `tweet_params`.
 
 ```ruby
-def new
-  @tweet = Tweet.new
-end
-
-def create
-  @tweet = Tweet.new(tweet_params)
-
-  respond_to do |format|
-    if @tweet.save
-      format.html { redirect_to root_path, notice: 'Tweet was successfully created.' }
-    else
-      format.html { render :new }
+  def new
+    @tweet = Tweet.new
     end
+
+  def create
+      @tweet = Tweet.new(tweet_params)
+
+      respond_to do |format|
+          if @tweet.save
+          format.html { redirect_to root_path, notice: 'Tweet was successfully created.' }
+          else
+          format.html { render :new }
+          end
+      end
   end
-end
+
+  ...
+
+  private
+
+  ...
+
+  def tweet_params
+    params.require(:tweet).permit(:content, :user_id, :tweet_id)
+  end
 ```
 
 También es necesario crear el formulario para ingresar el tweet. Este se crea en `app/views/tweets/_form.html.erb`
@@ -569,7 +579,7 @@ Para evitar que el current_user de like dos veces al mismo tweet, se crea el hel
   end
 ```
 
-Se debe agregar el boton de like (y dislike) en la vista `app/views/tweets/index.html.erb`. Nuevamente se puede usar el helper `user_signed_in?` y `current_user` para poder agregar usuario al like y el `tweet`correspondiente para entregar el tweet_id, además del helper creado `liked?`.
+Se debe agregar el boton de like (y dislike) en la vista `app/views/tweets/index.html.erb`. Nuevamente se puede usar el helper `user_signed_in?` y `current_user` para poder agregar usuario al like y el `tweet` correspondiente para entregar el tweet_id, además del helper creado `liked?`.
 
 ```ruby
   <% if user_signed_in? %>
@@ -587,6 +597,35 @@ Se debe agregar el boton de like (y dislike) en la vista `app/views/tweets/index
 
 - _Un usuario puede hacer un retweet haciendo click en la acción rt (retweet) de un tweet, esto hará que ingrese un nuevo tweet con el mismo contenido pero además referenciando al tweet original_
 
+Para hacer un retweet, se debe generar el metodo `retweet` en el controlador `app/controllers/tweets_controller.rb`. Este método creará un `@retweet`, que será un nuevo tweet al que se le ingresarán el param de content de del `@tweet`, el user_id del current_user y el tweet_id del `@tweet` original. (Recordar que `@tweet` fue seteado con el método `set_tweet` en el `before_action`)
+
+```ruby
+  def retweet
+    @retweet = Tweet.create(user_id: current_user.id, tweet_id: @tweet.id, content: @tweet.content)
+
+    respond_to do |format|
+      if @retweet.save
+        format.html { redirect_to @retweet, notice: 'Tweet was successfully created.' }
+      else
+        format.html { render :show }
+      end
+    end
+  end
+```
+
+Se debe agregar la ruta de este nuevo método en `config/routes.rb` con el verbo post ya que es un nuevo tweet.
+
+```ruby
+post 'tweet/:id/retweet', to: 'tweets#retweet', as: 'retweet'
+```
+
+Se debe agregar el boton rt (retweet) en el index. Nuevamente se puede usar el helper `user_signed_in?` para mostrar solo a si el usuario está logueado (no a las visitas) y el `tweet` correspondiente (iterado al mostralo) para entregar el tweet_id.
+
+```ruby
+  <% if user_signed_in? %>
+    <%= link_to "RT", retweet_path(tweet), method: "post", class: "btn btn-info btn-sm" %>
+  <% end %>
+```
 ---
 
 ### 1. Historia 7
