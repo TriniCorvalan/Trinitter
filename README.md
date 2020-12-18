@@ -407,7 +407,7 @@ Para paginar los tweets se puede usar la gema `kaminari`. Para usarla se debe ag
 gem 'kaminari'
 ```
 
-Luego en el método del controlador (en este caso index) cambiamos por
+Luego en el método del controlador (en este caso index) cambiamos por (`.order('created_at DESC`) los ordenará del más nuevo al más antiguo.`)
 
 ```ruby
 def index
@@ -632,3 +632,41 @@ Se debe agregar el boton rt (retweet) en el index. Nuevamente se puede usar el h
 
 - _Haciendo click en la fecha del tweet se debe ir al detalle del tweet y dentro del detalle debe aparecer la foto de todas las personas que han dado like al tweet._
 - _La fecha del tweet debe aparecer como tiempo en minutos desde la fecha de creación u horas si es mayor de 60 minutos._
+
+Para que la fecha aparezca en palabras y como se pide, se puede usar el helper `time_ago_in_words`
+
+Para ir al detalle del tweet se puede crear el metodo y vista show (la ruta ya fue asignada con `resources`).
+El método se crea en el controlador de tweets `app/controllers/tweets_controller.rb`
+
+```ruby
+  def show
+  end
+```
+_Recordemos que ya fue seteado el `@tweet` en `before_action`. Por lo que no hay que especificarlo._
+
+Luego se crea la vista show en `app/views/tweets/show.html.erb`. Esta contiene información similar a la mostrada en el index (contenido, usuario, usuario original si fue retweeteado, fecha) y luego las fotos de quienes dieron like. Para esto último basta iterar los likes que pertenecen a ese tweet y mostrar la foto del usuario (llamando a sus atributos) con un `link_to(image_tag(like.user.photo))`
+
+```ruby
+<h1><%= @tweet.content %></h1>
+<h4>Twiteado por <%= @tweet.user %> </h4>
+<% if @tweet.user.photo != nil %>
+    <p><%= link_to(image_tag(@tweet.user.photo)) %></p>
+<% end %>
+<p><%= time_ago_in_words(@tweet.created_at) %> ago</p>
+
+<p> Likes de: 
+  <% @tweet.likes.each do |like| %>
+  <%= link_to(image_tag(like.user.photo)) %>
+  <% end %>
+</p>
+```
+
+En el index `app/views/tweets/index.html.erb` se agrega un `link_to` a la vista show en la parte que se muestra la fecha. Si vemos con `rails routes` las rutas, veremos que la ruta a show es `tweet_path`, pero necesita el id del tweet que se quiere mostrar. En el caso del index, ese id se da a través del `tweet` que está siendo iterado.
+
+``ruby
+  <%= link_to tweet_path(tweet) do %>
+    <small><%= time_ago_in_words(tweet.created_at) %> ago</small>
+  <% end %>
+```
+
+---

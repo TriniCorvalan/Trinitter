@@ -19,11 +19,17 @@
     <div class="col-sm-6 col-md-4 card-deck">
       <div class="card mt-2">
           <div class="card-body">
+
+            <!-- contenido -->
             <h5 class="card-title"><%= tweet.content.truncate(150)  %></h5>
             <p class="card-text">
+
+              <!-- Foto usuario  -->
               <%= link_to(image_tag(tweet.user.photo, class: "img-fluid rounded d-inline-block w-25"), tweet) if tweet.user.photo? %>
               <%= tweet.user %>
             </p>
+
+            <!-- Fecha -->
             <p class="card-text">
               <%= link_to tweet_path(tweet) do %>
                 <small class="text-dark"><%= time_ago_in_words(tweet.created_at) %> ago</small>
