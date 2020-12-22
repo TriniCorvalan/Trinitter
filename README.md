@@ -663,7 +663,7 @@ Luego se crea la vista show en `app/views/tweets/show.html.erb`. Esta contiene i
 
 En el index `app/views/tweets/index.html.erb` se agrega un `link_to` a la vista show en la parte que se muestra la fecha. Si vemos con `rails routes` las rutas, veremos que la ruta a show es `tweet_path`, pero necesita el id del tweet que se quiere mostrar. En el caso del index, ese id se da a través del `tweet` que está siendo iterado.
 
-``ruby
+```ruby
   <%= link_to tweet_path(tweet) do %>
     <small><%= time_ago_in_words(tweet.created_at) %> ago</small>
   <% end %>
