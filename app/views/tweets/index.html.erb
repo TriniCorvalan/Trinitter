@@ -9,14 +9,17 @@
         <%= link_to 'New tweet', new_tweet_path, class: "btn btn-info btn-sm" %>
       <% end %>
     </div> -->
-    <div class="col-xs-8 col-sm-10 mt-3 ">
-      <h3>New Tweet</h3>
-    </div>
+    <% if user_signed_in? %>
+      <div class="col-xs-8 col-sm-10 mt-3 ">
+        <h3>New Tweet</h3>
+      </div>
+    <% end %>
 </div>
 
 
-
-<%= render 'form' %>
+<% if user_signed_in? %>
+  <%= render 'form' %>
+<% end %>
 
 <%= paginate @tweets %>
   
