@@ -4,13 +4,19 @@
     <div class="col-xs-8 col-sm-10">
       <h1>Tweets</h1>
     </div>
-    <div class="col-xs-4 col-sm-2">
+    <!-- <div class="col-xs-4 col-sm-2">
       <% if user_signed_in? %>
         <%= link_to 'New tweet', new_tweet_path, class: "btn btn-info btn-sm" %>
       <% end %>
-      
+    </div> -->
+    <div class="col-xs-8 col-sm-10 mt-3 ">
+      <h3>New Tweet</h3>
     </div>
 </div>
+
+
+
+<%= render 'form' %>
 
 <%= paginate @tweets %>
   

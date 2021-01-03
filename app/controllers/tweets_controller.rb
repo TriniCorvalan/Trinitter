@@ -17,15 +17,16 @@ class TweetsController < ApplicationController
 
     respond_to do |format|
       if @retweet.save
-        format.html { redirect_to @retweet, notice: 'Tweet was successfully created.' }
+        format.html { redirect_to root_path, notice: 'Tweet was successfully created.' }
       else
-        format.html { render :show }
+        format.html { render :index }
       end
     end
   end
 
   def index
     @tweets = Tweet.order('created_at DESC').page(params[:page]).per(50)
+    @tweet = Tweet.new
   end
 
   def show
