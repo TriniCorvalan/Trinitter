@@ -16,4 +16,6 @@ class Tweet < ApplicationRecord
   def rt_count
     self.tweets.count
   end
+  
+ scope :tweets_for_me, ->(followings) { where user_id: followings }
 end

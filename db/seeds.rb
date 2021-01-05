@@ -81,4 +81,4 @@ end
 10.times do 
     content = Faker::Lorem.paragraph
     tweet = Tweet.create(content: content, user_id: 7)
-end
+endAdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?

@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+  
   root to: "tweets#index"
 
   resources :tweets
@@ -16,6 +19,8 @@ Rails.application.routes.draw do
 
   get 'home/profile', to: 'home#profile'
   get 'home/tweets', to: 'home#tweets'
+  post 'home/:id/follow', to: "home#follow", as: "follow_user"
+  delete 'home/:id/unfollow', to: "home#unfollow", as: "unfollow_user"
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 

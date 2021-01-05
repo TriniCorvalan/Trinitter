@@ -1,0 +1,21 @@
+    <!-- Sidebar Holder -->
+<div class="container position-fixed fixed-left col-2">
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3>Users</h3>
+        </div>
+
+        <ul class="list-unstyled components">
+            <% User.all.each do |user| %>
+            <li></li><%= user %>
+                <% if current_user.followed?(user) %>
+                    <%= link_to 'Follow', follow_user_path(user), method: "post" %>
+                <% else %>
+                <%= link_to 'Unfollow', unfollow_user_path(user), method: "delete" %>
+                <% end %>
+            </li>
+            <% end %>
+        </ul>
+    </nav>
+</div>
+    

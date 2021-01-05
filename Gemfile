@@ -70,3 +70,6 @@ gem 'jquery-rails'
 gem 'kaminari', :git => 'https://github.com/kaminari/kaminari'
 gem 'kaminari-bootstrap'
 gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
+
+
+gem 'activeadmin'
