@@ -8,24 +8,5 @@ ActiveAdmin.register_page "Dashboard" do
         small I18n.t("active_admin.dashboard_welcome.call_to_action")
       end
     end
-
-    columns do
-      column do
-        panel "Users" do
-          ul do
-            User.all.each do |user|
-              li user
-              li user.email
-            end
-          end
-        end
-      end
-
-      column do
-        panel "Info" do
-          para "Welcome to ActiveAdmin."
-        end
-      end
-    end
   end
 end

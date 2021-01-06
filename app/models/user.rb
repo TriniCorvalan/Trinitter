@@ -7,8 +7,8 @@ class User < ApplicationRecord
   validates :username, presence: true
   validates :photo, presence: true
 
-  has_many :tweets
-  has_many :likes
+  has_many :tweets, dependent: :destroy
+  has_many :likes, dependent: :destroy
 
   has_many :received_follows, foreign_key: :followed_user_id, class_name: "Follow"
   has_many :followers, through: :received_follows, source: :follower
@@ -22,6 +22,26 @@ class User < ApplicationRecord
 
   def followed?(user)
     !self.followings.find{|followed| followed.id == user.id}
+  end
+
+  def followings_count
+    self.followings.count
+  end
+
+  def followers_count
+    self.followers.count
+  end
+  
+  def likes_count
+    self.tweets.sum(&:likes_count)
+  end
+
+  def retweet_count
+    self.tweets.sum(&:rt_count)
+  end
+
+  def tweets_count
+    self.tweets.count
   end
   
 end
