@@ -16,7 +16,7 @@
     <div class="col-sm-6 col-md-4 card-deck">
       <div class="card mt-2">
           <div class="card-body">
-            <h5 class="card-title"><%= tweet.content.truncate(150)  %></h5>
+            <h5 class="card-title"><%= render_hashtag(tweet.content)  %></h5>
             <p class="card-text">
               <%= link_to(image_tag(tweet.user.photo, class: "img-fluid rounded d-inline-block w-25"), tweet) if tweet.user.photo? %>
               <%= tweet.user %>

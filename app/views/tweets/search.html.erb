@@ -9,12 +9,12 @@
   
     <div class="row mb-3 mt-3">
       <% @tweets.each do |tweet| %>
-        <div class="card-deck">
+      <div class="card-deck">
         <div class="card mt-2">
             <div class="card-body">
 
                 <!-- contenido -->
-                <h5 class="card-title"><%= tweet.content %></h5>
+                <h5 class="card-title"><%= render_hashtag(tweet.content) %></h5>
                 <p class="card-text">
 
                 <!-- Foto usuario  -->
