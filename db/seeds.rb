@@ -6,79 +6,81 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-require 'faker'
+# require 'faker'
 
-10.times do 
-    content = Faker::Lorem.paragraph
-    tweet = Tweet.create(content: content, user_id: 6)
-end
+# 10.times do 
+#     content = Faker::Lorem.paragraph
+#     tweet = Tweet.create(content: content, user_id: 6)
+# end
 
-10.times do 
-    content = Faker::Lorem.paragraph
-    tweet = Tweet.create(content: content, user_id: 2)
-end
+# 10.times do 
+#     content = Faker::Lorem.paragraph
+#     tweet = Tweet.create(content: content, user_id: 2)
+# end
 
-10.times do 
-    content = Faker::Lorem.paragraph
-    tweet = Tweet.create(content: content, user_id: 6)
-end
+# 10.times do 
+#     content = Faker::Lorem.paragraph
+#     tweet = Tweet.create(content: content, user_id: 6)
+# end
 
-10.times do 
-    content = Faker::Lorem.paragraph
-    tweet = Tweet.create(content: content, user_id: 2)
-end
+# 10.times do 
+#     content = Faker::Lorem.paragraph
+#     tweet = Tweet.create(content: content, user_id: 2)
+# end
 
-10.times do 
-    content = Faker::Lorem.paragraph
-    tweet = Tweet.create(content: content, user_id: 4)
-end
+# 10.times do 
+#     content = Faker::Lorem.paragraph
+#     tweet = Tweet.create(content: content, user_id: 4)
+# end
 
-10.times do 
-    content = Faker::Lorem.paragraph
-    tweet = Tweet.create(content: content, user_id: 3)
-end
+# 10.times do 
+#     content = Faker::Lorem.paragraph
+#     tweet = Tweet.create(content: content, user_id: 3)
+# end
 
-10.times do 
-    content = Faker::Lorem.paragraph
-    tweet = Tweet.create(content: content, user_id: 7)
-end
+# 10.times do 
+#     content = Faker::Lorem.paragraph
+#     tweet = Tweet.create(content: content, user_id: 7)
+# end
 
-10.times do 
-    content = Faker::Lorem.paragraph
-    tweet = Tweet.create(content: content, user_id: 4)
-end
+# 10.times do 
+#     content = Faker::Lorem.paragraph
+#     tweet = Tweet.create(content: content, user_id: 4)
+# end
 
-10.times do 
-    content = Faker::Lorem.paragraph
-    tweet = Tweet.create(content: content, user_id: 3)
-end
+# 10.times do 
+#     content = Faker::Lorem.paragraph
+#     tweet = Tweet.create(content: content, user_id: 3)
+# end
 
-10.times do 
-    content = Faker::Lorem.paragraph
-    tweet = Tweet.create(content: content, user_id: 7)
-end
+# 10.times do 
+#     content = Faker::Lorem.paragraph
+#     tweet = Tweet.create(content: content, user_id: 7)
+# end
 
-10.times do 
-    content = Faker::Lorem.paragraph
-    tweet = Tweet.create(content: content, user_id: 6)
-end
+# 10.times do 
+#     content = Faker::Lorem.paragraph
+#     tweet = Tweet.create(content: content, user_id: 6)
+# end
 
-10.times do 
-    content = Faker::Lorem.paragraph
-    tweet = Tweet.create(content: content, user_id: 2)
-end
+# 10.times do 
+#     content = Faker::Lorem.paragraph
+#     tweet = Tweet.create(content: content, user_id: 2)
+# end
 
-10.times do 
-    content = Faker::Lorem.paragraph
-    tweet = Tweet.create(content: content, user_id: 4)
-end
+# 10.times do 
+#     content = Faker::Lorem.paragraph
+#     tweet = Tweet.create(content: content, user_id: 4)
+# end
 
-10.times do 
-    content = Faker::Lorem.paragraph
-    tweet = Tweet.create(content: content, user_id: 3)
-end
+# 10.times do 
+#     content = Faker::Lorem.paragraph
+#     tweet = Tweet.create(content: content, user_id: 3)
+# end
 
-10.times do 
-    content = Faker::Lorem.paragraph
-    tweet = Tweet.create(content: content, user_id: 7)
-endAdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+# 10.times do 
+#     content = Faker::Lorem.paragraph
+#     tweet = Tweet.create(content: content, user_id: 7)
+# end
+
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
