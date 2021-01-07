@@ -22,11 +22,24 @@ ActiveAdmin.register User do
   index do 
     column :username
     column :email
-    column :tweets_count
-    column :followers_count
-    column :followings_count
-    column :likes_count
-    column :retweet_count
+    column :tweets do |user|
+      user.tweets.count
+    end
+    column :followers do |user|
+      user.followers.count
+    end
+
+    column :followings do |user|
+      user.followings.count
+    end
+
+    column :likes do |user|
+      user.tweets.sum(&:likes_count)
+    end
+
+    column :retweet do |user|
+      user.tweets.sum(&:rt_count)
+    end
     actions 
   end
 

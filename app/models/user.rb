@@ -23,25 +23,5 @@ class User < ApplicationRecord
   def followed?(user)
     !self.followings.find{|followed| followed.id == user.id}
   end
-
-  def followings_count
-    self.followings.count
-  end
-
-  def followers_count
-    self.followers.count
-  end
-  
-  def likes_count
-    self.tweets.sum(&:likes_count)
-  end
-
-  def retweet_count
-    self.tweets.sum(&:rt_count)
-  end
-
-  def tweets_count
-    self.tweets.count
-  end
   
 end

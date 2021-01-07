@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
   post 'tweet/:id/retweet', to: 'tweets#retweet', as: 'retweet'
 
+  # get 'tweets/:search/search', to: 'tweets#search', as: 'search'
+
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations'

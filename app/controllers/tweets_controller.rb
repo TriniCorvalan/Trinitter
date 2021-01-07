@@ -1,5 +1,5 @@
 class TweetsController < ApplicationController
-  before_action :set_tweet, except: [:index, :new, :create]
+  before_action :set_tweet, except: [:index, :new, :create, :search]
   before_action :authenticate_user!, except: [:index, :show]
 
   def like
@@ -25,10 +25,27 @@ class TweetsController < ApplicationController
   end
 
   def index
+    if user_signed_in?
+      # @tweets = Tweet.tweets_for_me(current_user.followings).order('created_at DESC').page(params[:page]).per(50)
+      @tweets = Tweet.tweets_for_me(current_user.followings).search(params[:search]).order('created_at DESC').page(params[:page]).per(50)
+    else 
+      # @tweets = Tweet.order('created_at DESC').page(params[:page]).per(50)
+      @tweets = Tweet.search(params[:search]).order('created_at DESC').page(params[:page]).per(50)
+    end
 
-    @tweets = Tweet.tweets_for_me(current_user.followings).order('created_at DESC').page(params[:page]).per(50)
     @tweet = Tweet.new
+    
   end
+
+  # def search
+  #   if user_signed_in?
+  #     @tweets = Tweet.tweets_for_me(current_user.followings).search(params[:search]).order('created_at DESC').page(params[:page]).per(50)
+  #   else 
+  #     @tweets = Tweet.search(params[:search]).order('created_at DESC').page(params[:page]).per(50)
+  #   end
+  # end
+
+
 
   def show
     @retweet = Tweet.find_by(id: @tweet.tweet_id)

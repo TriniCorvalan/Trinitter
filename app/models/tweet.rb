@@ -5,6 +5,8 @@ class Tweet < ApplicationRecord
   has_many :tweets, foreign_key: :tweet_id, class_name: 'Tweet', dependent: :destroy
   validates :content, presence: true
 
+  # before_save :hash_tag
+
   def liked?(user)
     !!self.likes.find{|like| like.user_id == user.id}
   end
@@ -16,6 +18,30 @@ class Tweet < ApplicationRecord
   def rt_count
     self.tweets.count
   end
+
+  def self.search(search)
+    if search
+      where('content LIKE ?', "%#{search}%" || "%#{search}" || "#{search}%" )
+    else
+      all
+    end
+  end
+
+  # def hash_tag
+  #   words = self.content.split(" ")
+  #   text = []
+  #   words.each do |word|
+  #     if word.start_with?("#")
+  #       search = word
+  #       word = "<%= link_to search_path(#{search}) %>"
+  #       text.push(word)
+  #     else
+  #       text.push(word)
+  #     end
+  #   end
+  #   text = text.join(" ")
+  #   self.content = text
+  # end
   
  scope :tweets_for_me, ->(followings) { where user_id: followings }
 end
