@@ -83,4 +83,4 @@
 #     tweet = Tweet.create(content: content, user_id: 7)
 # end
 
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
