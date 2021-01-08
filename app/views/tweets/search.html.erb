@@ -5,7 +5,10 @@
     <div class="col-xs-8 col-sm-8">
       <h1>Tweets</h1>
     </div>
-    <%= paginate @tweets %>
+
+    <%= render 'tweets' %>
+    
+    <!-- <%= paginate @tweets %>
   
     <div class="row mb-3 mt-3">
       <% @tweets.each do |tweet| %>
@@ -13,16 +16,16 @@
         <div class="card mt-2">
             <div class="card-body">
 
-                <!-- contenido -->
+                contenido
                 <h5 class="card-title"><%= render_hashtag(tweet.content) %></h5>
                 <p class="card-text">
 
-                <!-- Foto usuario  -->
+                Foto usuario 
                 <%= link_to(image_tag(tweet.user.photo, class: "img-fluid rounded d-inline-block w-25"), tweet) if tweet.user.photo? %>
                 <%= tweet.user %>
                 </p>
 
-                <!-- Fecha -->
+                Fecha
                 <p class="card-text">
                 <%= link_to tweet_path(tweet) do %>
                     <small class="text-dark"><%= time_ago_in_words(tweet.created_at) %> ago</small>
@@ -33,7 +36,7 @@
                 <div class="col-6 mb-3">
                     <p class="card-text">
                     
-                    <!-- Boton Like -->
+                    Boton Like
                     
                     <% if user_signed_in? %>
                         <% if tweet.liked?(current_user) %>
@@ -43,7 +46,7 @@
                         <% end %>
                     <% end %>
     
-                    <!-- Boton RT -->
+                    Boton RT
                     <% if user_signed_in? %>
                         <%= link_to "RT", retweet_path(tweet), method: "post", class: "btn btn-info btn-sm" %>
                     <% end %>
@@ -55,7 +58,7 @@
                 </div>
                 </div>
                 
-                <!-- Botones show, edit, destroy -->
+                Botones show, edit, destroy
 
                 <p>
                 <%= link_to 'Show', tweet, class: "btn btn-outline-info btn-sm" %> 
@@ -71,7 +74,7 @@
       <% end %>
     </div>
 
-<%= paginate @tweets %>
+<%= paginate @tweets %> -->
 
 
   <br>

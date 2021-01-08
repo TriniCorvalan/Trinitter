@@ -24,6 +24,15 @@ class Tweet < ApplicationRecord
       all
     end
   end
+
+  def self.hashtag_search(search)
+    if search
+      where('content LIKE ?', "%##{search}%" )
+    else
+      all
+    end
+  end
+
   
  scope :tweets_for_me, ->(followings) { where user_id: followings }
 end
