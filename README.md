@@ -20,6 +20,11 @@
     + [1. Historia 6](#1-historia-6)
     + [1. Historia 7](#1-historia-7)
 
++ [Hito 2](#hito-2)
+    + [2. Historia 1](#2-historia-1) 
+    + [2. Historia 2](#2-historia-2)
+    + [2. Historia 3](#2-historia-3)
+    + [2. Historia 4](#2-historia-4)
 ---
 
 ### Proyecto base
@@ -670,3 +675,78 @@ En el index `app/views/tweets/index.html.erb` se agrega un `link_to` a la vista 
 ```
 
 ---
+
+## Hito 2
+
+---
+
+### 2. Historia 1
+
+- *Modificar la página principal para que, si el usuario ha iniciado sesión, se muestren únicamente los tweets de las personas que sigue.*
+- *Crear el scope tweets_for_me que recibirá una lista de ids de amigos del current_user y entregará todos los tweets relacionados a sus amigos*
+
+
+Para esta historia se debe crear un nuevo modelo intermedio entre users. Se crea el modelo `Follow` que tiene un follower_id (referencia al usuario "seguidor" -quien dio el follow-) y un followed_user_id (referencia al usuario "seguido" -quien recibió el follow-)
+
+```console
+$ rails g model follow follower_id:integer follower_user_id:integer
+```
+
+Revisamos y cargamos la migración  
+
+```console
+$ rails db:migrate
+```
+
+En el modelo Follow `app/models/follow.rb` agregamos la asociación de foreign_key con los respectivos Users
+
+```ruby
+  belongs_to :follower, foreign_key: :follower_id, class_name: "User"
+
+  belongs_to :followed_user, foreign_key: :followed_user_id, class_name: "User"
+```
+
+Luego en el modelo User `app/models/user.rb` creamos las asociaciones para poder acceder a los seguidores y seguidos de cada usuario a través de la tabla de follows.
+  
+```ruby
+  has_many :received_follows, foreign_key: :followed_user_id, class_name: "Follow"
+  has_many :followers, through: :received_follows, source: :follower
+
+  has_many :given_follows, foreign_key: :follower_id, class_name: "Follow"
+  has_many :followings, through: :given_follows, source: :followed_user
+```
+
+Después se crea el `scope` como se indica. Esto se hace en `app/models/tweet.rb` Este scope recibe la lista de seguidos del `current_user` y busca en los tweets a aquellos que hayan sido creados por alguno de los seguidos
+
+```ruby
+scope :tweets_for_me, ->(followings) { where user_id: followings }
+```
+Para aplicar este scope, en el controlador de tweets `app/controllers/tweets_controller.rb` se agrega esta especificación (recordemos que se debe aplicar solo si el usuario ha iniciado sesión, o no habrá un `current_user` y en este caso, mostraremos todos los tweets solo para ver algo por mientras)
+
+```ruby
+  def index
+    if user_signed_in?
+      @tweets = Tweet.tweets_for_me(current_user.followings).order('created_at DESC').page(params[:page]).per(50)
+    else
+      @tweets = Tweet.order('created_at DESC').page(params[:page]).per(50)
+    end
+  ...
+  end
+
+---
+
+### 2. Historia 2
+
+- *Se deberá crear un panel de control utilizando ActiveAdmin que liste todos los usuarios y pueda editarlos, cada usuario aparecerá junto al número de cuentas que sigue, cantidad de tweets realizados, cantidad de likes dados y la cantidad de retweets. Además deberán aparecer las acciones de borrar y editar, donde borrar un usuario implica borrar en cascada todos sus tweets, likes y retweets.*
+
+---
+
+### 2. Historia 3
+
+- *Implementar un buscador que pueda buscar tweets, para esto se debe hacer una búsqueda parcial ya que el contenido puede ser solo parte de un tweet.*
+
+---
+
+### 2. Historia 4
+
+- *Debe permitirse la incorporación de hashtags en los contenidos (#estos #son #ejemplos), cada hashtag debe ser un link a una búsqueda.*

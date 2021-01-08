@@ -26,10 +26,8 @@ class TweetsController < ApplicationController
 
   def index
     if user_signed_in?
-      # @tweets = Tweet.tweets_for_me(current_user.followings).order('created_at DESC').page(params[:page]).per(50)
       @tweets = Tweet.tweets_for_me(current_user.followings).search(params[:search]).order('created_at DESC').page(params[:page]).per(50)
     else 
-      # @tweets = Tweet.order('created_at DESC').page(params[:page]).per(50)
       @tweets = Tweet.search(params[:search]).order('created_at DESC').page(params[:page]).per(50)
     end
 
@@ -44,8 +42,6 @@ class TweetsController < ApplicationController
       @tweets = Tweet.hashtag_search(params[:search]).order('created_at DESC').page(params[:page]).per(50)
     end
   end
-
-
 
   def show
     @retweet = Tweet.find_by(id: @tweet.tweet_id)
