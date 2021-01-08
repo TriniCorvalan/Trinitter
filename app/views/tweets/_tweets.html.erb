@@ -1,62 +1,21 @@
-<% if user_signed_in? %>
-  <%= render 'sidebar' %>
-<% end %>
+<%= paginate @tweets %>
 
-<div class="container mt-5 mr-5">
-
-
-<div class="row mb-3">
-    <div class="col-xs-8 col-sm-8">
-      <h1>Tweets</h1>
-    </div>
-    <div class="col-sm-4">
-      <%= link_to 'Admin', new_admin_user_session_path, class: "btn btn-info btn-sm" %>
-      <p>email: admin@example.com</p>
-      <p>pass: password</p>
-    </div>
-    <!-- <div class="col-xs-4 col-sm-2">
-      <% if user_signed_in? %>
-        <%= link_to 'New tweet', new_tweet_path, class: "btn btn-info btn-sm" %>
-      <% end %>
-    </div> -->
-    <% if user_signed_in? %>
-      <div class="col-xs-8 col-sm-10 mt-3 ">
-        <h3>New Tweet</h3>
-      </div>
-    <% end %>
-</div>
-
-<% if user_signed_in? %>
-  <%= render 'form' %>
-<% end %>
-
-<%= form_tag tweets_path, :method => 'get' do %>
-  <p>
-    <%= text_field_tag :search, params[:search], class: "form mr-sm-2" %>
-    <%= submit_tag "Buscar", class: "btn btn-sm btn-light btn-outline-info ml-2" %>
-  </p>
-<% end %>
-
-<%= render 'tweets' %>
-
-<!-- <%= paginate @tweets %>
-  
 <div class="row mb-3 mt-3">
   <% @tweets.each do |tweet| %>
     <div class="col-sm-6 col-md-4 card-deck">
       <div class="card mt-2">
           <div class="card-body">
 
-            contenido
+            <!-- contenido -->
             <h5 class="card-title"><%= render_hashtag(tweet.content) %></h5>
             <p class="card-text">
 
-              Foto usuario 
+              <!-- Foto usuario  -->
               <%= link_to(image_tag(tweet.user.photo, class: "img-fluid rounded d-inline-block w-25"), tweet) if tweet.user.photo? %>
               <%= tweet.user %>
             </p>
 
-            Fecha
+            <!-- Fecha -->
             <p class="card-text">
               <%= link_to tweet_path(tweet) do %>
                 <small class="text-dark"><%= time_ago_in_words(tweet.created_at) %> ago</small>
@@ -67,7 +26,7 @@
               <div class="col-6 mb-3">
                 <p class="card-text">
                   
-                  Boton Like
+                  <!-- Boton Like -->
                   
                   <% if user_signed_in? %>
                     <% if tweet.liked?(current_user) %>
@@ -77,7 +36,7 @@
                     <% end %>
                   <% end %>
   
-                  Boton RT
+                  <!-- Boton RT -->
                   <% if user_signed_in? %>
                     <%= link_to "RT", retweet_path(tweet), method: "post", class: "btn btn-info btn-sm" %>
                   <% end %>
@@ -89,7 +48,7 @@
               </div>
             </div>
             
-            Botones show, edit, destroy
+            <!-- Botones show, edit, destroy -->
 
             <p>
               <%= link_to 'Show', tweet, class: "btn btn-outline-info btn-sm" %> 
@@ -105,9 +64,4 @@
   <% end %>
 </div>
 
-<%= paginate @tweets %> -->
-
-
-  <br>
-  
-</div>
+<%= paginate @tweets %>

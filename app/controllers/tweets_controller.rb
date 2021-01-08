@@ -39,9 +39,9 @@ class TweetsController < ApplicationController
 
   def search
     if user_signed_in?
-      @tweets = Tweet.tweets_for_me(current_user.followings).search(params[:search]).order('created_at DESC').page(params[:page]).per(50)
+      @tweets = Tweet.tweets_for_me(current_user.followings).hashtag_search(params[:search]).order('created_at DESC').page(params[:page]).per(50)
     else 
-      @tweets = Tweet.search(params[:search]).order('created_at DESC').page(params[:page]).per(50)
+      @tweets = Tweet.hashtag_search(params[:search]).order('created_at DESC').page(params[:page]).per(50)
     end
   end
 
