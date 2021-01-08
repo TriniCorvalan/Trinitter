@@ -732,6 +732,7 @@ Para aplicar este scope, en el controlador de tweets `app/controllers/tweets_con
     end
   ...
   end
+```
 
 ---
 
@@ -739,11 +740,98 @@ Para aplicar este scope, en el controlador de tweets `app/controllers/tweets_con
 
 - *Se deberá crear un panel de control utilizando ActiveAdmin que liste todos los usuarios y pueda editarlos, cada usuario aparecerá junto al número de cuentas que sigue, cantidad de tweets realizados, cantidad de likes dados y la cantidad de retweets. Además deberán aparecer las acciones de borrar y editar, donde borrar un usuario implica borrar en cascada todos sus tweets, likes y retweets.*
 
+Se debe agregar la gema en `Gemfile`
+
+```ruby
+gem 'activeadmin'
+```
+Correr el **bundle** en el terminal para cargar la gema.
+
+```console
+$ bundle
+```
+
+Instalar la gema
+
+```console
+$ rails generate active_admin:install
+```
+
+Correr la migración
+```console
+$ rails db:migrate
+```
+
+Registrar el modelo `User`
+
+```console
+$ rails generate active_admin:resource User
+```
+
+En `app/admin/users.rb` se puede editar el panel de usuarios que verá el admin. Se debe modificar los parametros permitidos agregando `permit_params :username, :email, :followers, :followings`
+
+Luego en el mismo archivo se crea el index con las características que se mostrarán y `actions` para las acciones de editar y borrar
+
+```ruby
+  index do 
+    column :username
+    column :email
+    column :tweets do |user|
+      user.tweets.count
+    end
+    column :followers do |user|
+      user.followers.count
+    end
+
+    column :followings do |user|
+      user.followings.count
+    end
+
+    column :likes do |user|
+      user.tweets.sum(&:likes_count)
+    end
+
+    column :retweet do |user|
+      user.tweets.sum(&:rt_count)
+    end
+    actions 
+  end
+```
+
 ---
 
 ### 2. Historia 3
 
 - *Implementar un buscador que pueda buscar tweets, para esto se debe hacer una búsqueda parcial ya que el contenido puede ser solo parte de un tweet.*
+
+Para realizar la búsqueda se utilizará un método en el modelo de tweets que luego se implementará en el controlador para realizar el filtro en el buscador.
+
+En `app/models/tweet.rb` se aplica el metodo de clase que recibe la palabra a buscar (search). Se ocupa `%` para poder realizar la búsqueda parcial. Además en caso que no haya palabra a buscar, se mostrarán todos
+
+```ruby
+...
+  def self.search(search)
+    if search
+      where('content LIKE ?', "%#{search}%" || "%#{search}" || "#{search}%" )
+    else
+      all
+    end
+  end
+...
+```
+
+En el controlador de tweets en index se agrega el `.search(params[:search])`que realizará el filtro.
+
+```ruby
+  def index
+    if user_signed_in?
+      @tweets = Tweet.tweets_for_me(current_user.followings).search(params[:search]).order('created_at DESC').page(params[:page]).per(50)
+    else 
+      @tweets = Tweet.search(params[:search]).order('created_at DESC').page(params[:page]).per(50)
+    end
+    ...
+  end
+```
 
 ---
 
