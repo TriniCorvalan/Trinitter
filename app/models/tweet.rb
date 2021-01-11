@@ -32,7 +32,6 @@ class Tweet < ApplicationRecord
       all
     end
   end
-
   
  scope :tweets_for_me, ->(followings) { where user_id: followings }
 end

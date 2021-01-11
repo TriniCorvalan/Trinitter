@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  post 'api/news'
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   
