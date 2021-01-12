@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   
   post 'api/news'
+  post 'api/:date1/:date2', to: 'api#by_date'
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
