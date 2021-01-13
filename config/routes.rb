@@ -1,8 +1,27 @@
 Rails.application.routes.draw do
-  
-  post 'api/news'
-  post 'api/:date1/:date2', to: 'api#by_date'
 
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+  }
+
+  # namespace :apis, defaults: {format: 'json'} do 
+  #   # mount_devise_token_auth_for :users, at: 'auth', skip: [:omniauth_callbacks]
+  #   resources :api, only [] do
+  #     collection do
+  #       get 'api/news'
+  #       get 'api/:date1/:date2', to: 'api#by_date'
+  #       post 'api/create', to: 'api#create'
+  #     end
+  #   end
+  # end
+  
+
+  get 'api/news'
+  get 'api/:date1/:date2', to: 'api#by_date'
+  post 'api/create', to: 'api#create'
+
+        
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   
@@ -17,10 +36,6 @@ Rails.application.routes.draw do
 
   get 'tweets/search/:search', to: 'tweets#search', as: 'search'
 
-  devise_for :users, controllers: {
-    sessions: 'users/sessions',
-    registrations: 'users/registrations'
-  }
 
   get 'home/profile', to: 'home#profile'
   get 'home/tweets', to: 'home#tweets'
