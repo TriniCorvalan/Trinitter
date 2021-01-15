@@ -885,7 +885,7 @@ class ApiController < ActionController::API
 
 para que así herede las funcionalidades de una API
 
-En este controlador de api, se genera el método `news`
+En este controlador de api, se genera el método `news` que llama a los últimos 50 tweets ordenados y luego ingresa en un hash cada uno de los atributos solicitados de cada tweet y después ese hash lo guarda en el array `respuesta` que será entregado como json.
 
 ```ruby
 def news
@@ -907,14 +907,80 @@ def news
 end
 ```
 
+También se debe crear la ruta en `config/routes.rb` que en este caso mantendremos con `get` ya que solo se mostrarán los tweets 
+
+```ruby
+get 'api/news'
+```
+
 ---
 
 ### 3. Historia 2
 
 - _Crear la página `/api/:fecha1/:fecha2` que entregue un json con todos los tweets entre ambas fechas._
 
+En el controlador de api se crea el método `by_date` que recibirá desde la ruta los parámtros `:date1` y `:date2`. Este método buscará en los tweets (con `where`) los que fueron creados (`created_at`) entre ambas fechas dadas y los entregará ordenados de manera ascendente (del más antiguo al mas nuevo). Luego realizará el mismo proceso que news para mostrarlos en formato json.
+
+```ruby
+def by_date
+  @tweets = Tweet.where(created_at: params[:date1].to_date...params[:date2].to_date).order('created_at ASC')
+
+    respuesta = []
+    hash = {}
+    @tweets.each do |tweet|
+      hash = {
+        id: tweet.id,
+        content: tweet.content,
+        user_id: tweet.user.id,
+        likes_count: tweet.likes_count,
+        retweets_count: tweet.rt_count,
+        retweeted_from: tweet.tweet_id
+      }
+    respuesta.push(hash)
+  end
+  render json: respuesta
+end
+```
+
+Se debe crear la ruta especificando los parámetros `:date1` y `:date2` para que estos sean recibidos por el método. 
+
+```ruby
+get 'api/:date1/:date2', to: 'api#by_date'
+```
+
 ---
 
 ### 3. Historia 3
 
 - _Se debe poder crear un tweet a través de la API. Para la creación del tweet el usuario deberá utilizar autenticación._
+
+Para poder crear el tweet se genera el método `create` en el controlador de api. Este recibirá el contenido dentro de los params y el user como el current_user. Luego lo guardará y lo mostrará en formatp json.
+
+```ruby
+def create
+  @tweet = Tweet.new(content: params[:content], user: current_user)
+
+  if @tweet.save
+    render json: @tweet, status: :created, location: @tweet
+  else
+    render json: @tweet.errors, status: :unprocessable_entity
+  end
+
+end
+```
+
+La ruta en este caso usará el verbo post ya que se está creando nuevo contenido.
+
+```ruby
+post 'api/create', to: 'api#create'
+```
+
+Para generar la autenticación se usará basic auth. Para esto se debe editar el archivo `config/initializers/devise.rb`, descomentar la línea de configuración de http_authenticatable y cambiarla por 
+
+```ruby
+config.http_authenticatable = true
+```
+
+Luego se agrega un `before_action :authenticate_user!, only: :create` al comienzo del controlador de api.
+
+Para poder usarlo es necesario ingresar las credenciales (email y passoword) de un usuario válido.
