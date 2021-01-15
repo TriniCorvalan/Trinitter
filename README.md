@@ -25,6 +25,12 @@
     + [2. Historia 2](#2-historia-2)
     + [2. Historia 3](#2-historia-3)
     + [2. Historia 4](#2-historia-4)
+
++ [Hito 3](#hito-3)
+    + [3. Historia 1](#3-historia-1) 
+    + [3. Historia 2](#3-historia-2)
+    + [3. Historia 3](#3-historia-3)
+
 ---
 
 ### Proyecto base
@@ -838,3 +844,77 @@ En el controlador de tweets en index se agrega el `.search(params[:search])`que 
 ### 2. Historia 4
 
 - *Debe permitirse la incorporación de hashtags en los contenidos (#estos #son #ejemplos), cada hashtag debe ser un link a una búsqueda.*
+
+Para incorporar los hashtag, se manejan como búsquedas. Se reemplaza el hashtag por un link de búsqueda con gsub y luego como .html_safe se guarda de manera que solo se vea la palabra y no todo el link. En `app/helpers/tweets_helper.rb` se crea el helper.
+
+```ruby
+  def render_hashtag(content)
+    content.gsub(/#\w+/) { |w| link_to w, "tweets/search/#{w.delete('#')}" }.html_safe
+  end
+```
+
+Luego en la vista se cambia el contenido mostrado por `<%= render_hashtag(tweet.content) %>`
+
+---
+
+## Hito 3
+
+---
+
+### 3. Historia 1
+
+- _Crear la página `/api/news` que permita obtener un json con los últimos 50 tweets_
+
+Se crea el controlador en la consola
+
+```console
+  $ rails g controller api news
+```
+
+Luego en este `app/controllers/api_controller.rb` se cambia
+
+```ruby
+class ApiController < ApplicationController
+```
+
+por 
+
+```ruby
+class ApiController < ActionController::API
+```
+
+para que así herede las funcionalidades de una API
+
+En este controlador de api, se genera el método `news`
+
+```ruby
+def news
+  @tweets = Tweet.order('created_at DESC').limit(50)
+  respuesta = []
+  hash = {}
+  @tweets.each do |tweet|
+    hash = {
+      id: tweet.id,
+      content: tweet.content,
+      user_id: tweet.user.id,
+      likes_count: tweet.likes_count,
+      retweets_count: tweet.rt_count,
+      retweeted_from: tweet.tweet_id
+    }
+    respuesta.push(hash)
+  end
+  render json: respuesta
+end
+```
+
+---
+
+### 3. Historia 2
+
+- _Crear la página `/api/:fecha1/:fecha2` que entregue un json con todos los tweets entre ambas fechas._
+
+---
+
+### 3. Historia 3
+
+- _Se debe poder crear un tweet a través de la API. Para la creación del tweet el usuario deberá utilizar autenticación._
